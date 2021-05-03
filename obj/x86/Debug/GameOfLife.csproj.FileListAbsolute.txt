@@ -1,0 +1,6 @@
+/Users/Kr1sh/Desktop/unknown/programming scripts/projects/GameOfLife/bin/Debug/GameOfLife.exe
+/Users/Kr1sh/Desktop/unknown/programming scripts/projects/GameOfLife/bin/Debug/GameOfLife.pdb
+/Users/Kr1sh/Desktop/unknown/programming scripts/projects/GameOfLife/obj/x86/Debug/GameOfLife.csprojAssemblyReference.cache
+/Users/Kr1sh/Desktop/unknown/programming scripts/projects/GameOfLife/obj/x86/Debug/GameOfLife.csproj.CoreCompileInputs.cache
+/Users/Kr1sh/Desktop/unknown/programming scripts/projects/GameOfLife/obj/x86/Debug/GameOfLife.exe
+/Users/Kr1sh/Desktop/unknown/programming scripts/projects/GameOfLife/obj/x86/Debug/GameOfLife.pdb
