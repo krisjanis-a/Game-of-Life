@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GameOfLife
 {
@@ -8,18 +9,88 @@ namespace GameOfLife
         {
             EntryPoint:
 
-            // PART 1 - Create board with random live cells
+            // PART 1 - Create board and add live cells
 
-            int boardHeight = 20;
-            int boardWidth = 20;
-            //int deadCellPercentage = 10; // higher number = less alive cells
+            Console.WriteLine("Welcome to Game of Life" + Environment.NewLine);
 
-            // Random cell population
+            // Choose method for creating the initial board
 
-            Random population = new Random();
-            int deadCellPercentage = population.Next(0, 100);
+            Console.WriteLine("Use random cell population (press \"R\") or read from file (press \"F\").");
 
-            // Create empty board
+            bool useRandomCellPopulation = false;
+
+            while (true)
+            {
+                ConsoleKeyInfo result = Console.ReadKey(false);
+                Console.Clear();
+
+                if ((result.KeyChar == 'R') || (result.KeyChar == 'r'))
+                {
+                    useRandomCellPopulation = true;
+                    break;
+                }
+
+                if ((result.KeyChar == 'F') || (result.KeyChar == 'f'))
+                {
+                    useRandomCellPopulation = false;
+                    break;
+                }
+
+                else
+                {
+                    goto EntryPoint;
+                }
+            }
+
+            // Get board size depending on method used
+
+            int boardHeight = 0;
+            int boardWidth = 0;
+
+            if (useRandomCellPopulation == true)
+            {
+                Console.WriteLine("Enter desired height of the board:");
+                boardHeight = int.Parse(Console.ReadLine());
+
+                Console.WriteLine("Enter desired width of the board:");
+                boardWidth = int.Parse(Console.ReadLine());
+            }
+
+            string[] initialBoard = { };
+
+            if (useRandomCellPopulation == false)
+            {
+                List<string> initialBoardFromFile = new List<string> { };
+
+                Console.WriteLine("Enter path to file from which initial board state is to be loaded. Verify that the board state consists only of 0's and 1's and that it is rectangular. ");
+
+                string filePath = string.Empty;
+                //filePath = Console.ReadLine();
+
+                filePath = "/Users/Kr1sh/Desktop/unknown/programming scripts/projects/GameOfLife/maps/GosperGliderGun2.txt";
+
+                string line;
+
+                // Read the file and display it line by line.  
+                System.IO.StreamReader file = new System.IO.StreamReader(@filePath);
+                while ((line = file.ReadLine()) != null)
+                {
+                    initialBoardFromFile.Add(line);
+                }
+
+                file.Close();
+
+                initialBoard = initialBoardFromFile.ToArray();
+
+                boardHeight = initialBoard.Length;
+
+                string firstLine = initialBoard[0];
+
+                boardWidth = firstLine.Length;
+
+            }
+
+            // Create an empty board
 
             int[,] gameBoard = new int[boardHeight, boardWidth];
 
@@ -31,45 +102,73 @@ namespace GameOfLife
                 }
             }
 
-            // Fill board with dead and alive cells at random
+            // Random cell population
 
-            Random random = new Random();
+            Random population = new Random();
+            int deadCellPercentage = population.Next(0, 100);
 
-            for (int i = 0; i < boardHeight;)
+            if (useRandomCellPopulation == true)
             {
-                for (int j = 0; j < boardWidth;)
-                {
-                    double randomNumber = random.Next(0,100);
+                Random random = new Random();
 
-                    if (deadCellPercentage < randomNumber)
+                for (int i = 0; i < boardHeight;)
+                {
+                    for (int j = 0; j < boardWidth;)
                     {
-                        gameBoard[i, j] = 1;
+                        double randomNumber = random.Next(0, 100);
+
+                        if (deadCellPercentage < randomNumber)
+                        {
+                            gameBoard[i, j] = 1;
+                        }
+
+                        j++;
+
                     }
 
-                    j++;
+                    i++;
 
                 }
-
-                i++;
             }
 
+            // Cell population from file
 
-            // Manually fill the board
+            // /Users/Kr1sh/Desktop/unknown/programming scripts/projects/GameOfLife/maps/Gosper Glider Gun.txt
 
+            if (useRandomCellPopulation == false)
+            {
+                for (int i = 0; i < boardHeight;)
+                {
+                    string currentLine = initialBoard[i];
 
-            //gameBoard[2, 2] = 1;
-            //gameBoard[2, 3] = 1;
-            //gameBoard[2, 4] = 1;
-            //gameBoard[3, 1] = 1;
-            //gameBoard[3, 2] = 1;
-            //gameBoard[3, 3] = 1;
+                    for (int j = 0; j < boardWidth;)
+                    {
+                        int currentNumber = (int)char.GetNumericValue(currentLine[j]);
+
+                        if (currentNumber == 1)
+                        {
+                            gameBoard[i, j] = 1;
+                        }
+
+                        j++;
+
+                    }
+
+                    i++;
+
+                }
+            }
 
             // Print board
 
             PrintCurrentBoard:
 
             Console.WriteLine("Game of Life");
-            //Console.WriteLine("Dead cell percentage: " + deadCellPercentage);
+
+            if (useRandomCellPopulation == true)
+            {
+                Console.WriteLine("Dead cell percentage: " + deadCellPercentage);
+            }
 
             for (int i = 0; i < boardHeight; i++)
             {
@@ -243,7 +342,7 @@ namespace GameOfLife
                         else
                         {
                             Console.ForegroundColor = ConsoleColor.DarkRed;
-                            Console.Write("+");
+                            Console.Write(" ");
                             Console.ResetColor();
                         }
                     }
@@ -254,7 +353,7 @@ namespace GameOfLife
 
                 Console.ResetColor();
 
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(200);
 
                 for (int i = 0; i < boardHeight; i++)
                 {
@@ -292,7 +391,7 @@ namespace GameOfLife
             int boardHeight = currentBoardState.GetLength(0);
             int boardWidth = currentBoardState.GetLength(1);
 
-            int[,] NextBoardState = new int[boardHeight, boardHeight];
+            int[,] NextBoardState = new int[boardHeight, boardWidth];
 
             for (int i = 0; i < boardHeight;)
             {
