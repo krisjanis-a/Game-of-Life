@@ -67,7 +67,7 @@ namespace GameOfLife
                 string filePath = string.Empty;
                 //filePath = Console.ReadLine();
 
-                filePath = "/Users/Kr1sh/Desktop/unknown/programming scripts/projects/GameOfLife/maps/GosperGliderGun2.txt";
+                filePath = "/Users/Kr1sh/Desktop/unknown/programming scripts/projects/GameOfLife/maps/R-pentomino.txt";
 
                 string line;
 
@@ -132,8 +132,6 @@ namespace GameOfLife
             }
 
             // Cell population from file
-
-            // /Users/Kr1sh/Desktop/unknown/programming scripts/projects/GameOfLife/maps/Gosper Glider Gun.txt
 
             if (useRandomCellPopulation == false)
             {
@@ -353,7 +351,7 @@ namespace GameOfLife
 
                 Console.ResetColor();
 
-                System.Threading.Thread.Sleep(200);
+                System.Threading.Thread.Sleep(50);
 
                 for (int i = 0; i < boardHeight; i++)
                 {
