@@ -184,7 +184,7 @@ namespace GameOfLife
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.Write("+");
+                        Console.Write(" ");
                         Console.ResetColor();
                     }
                 }
@@ -288,7 +288,7 @@ namespace GameOfLife
 
             // Print initial board state
 
-            Console.WriteLine("Current itteration: 0. To stop the game, press spacebar.");
+            Console.WriteLine("Current itteration: 0.");
 
             for (int i = 0; i < boardHeight; i++)
             {
@@ -304,7 +304,7 @@ namespace GameOfLife
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.Write("+");
+                        Console.Write(" ");
                         Console.ResetColor();
                     }
                 }
@@ -318,7 +318,7 @@ namespace GameOfLife
 
             // Start calculating and printing further board states
 
-            int currentItteration = 1;
+            int currentIteration = 1;
 
             bool allBoardDead = false;
 
@@ -326,7 +326,7 @@ namespace GameOfLife
             {
                 nextBoardState = CalculateNextBoardState(currentBoardState);
 
-                Console.WriteLine("Current itteration: {0}. To stop the game, press spacebar.", currentItteration);
+                Console.WriteLine("Current iteration: {0}.", currentIteration);
 
                 for (int i = 0; i < boardHeight; i++)
                 {
@@ -375,10 +375,47 @@ namespace GameOfLife
                 EndCheck:
 
                 currentBoardState = nextBoardState;
-                currentItteration += 1;
+                currentIteration += 1;
             }
 
-            Console.WriteLine("All board is dead.");
+            ChooseAgain:
+
+            Console.Clear();
+
+            Console.WriteLine("All board is dead." + Environment.NewLine);
+
+            Console.WriteLine("Would you like to reload the board?");
+
+            Console.WriteLine("Yes - press [y]");
+            Console.WriteLine("No - press [n]");
+
+            while (true)
+            {
+                ConsoleKeyInfo result = Console.ReadKey(false);
+                Console.Clear();
+
+                if ((result.KeyChar == 'Y') || (result.KeyChar == 'y'))
+                {
+                    reloadBoard = true;
+                    break;
+                }
+
+                if ((result.KeyChar == 'N') || (result.KeyChar == 'n'))
+                {
+                    reloadBoard = false;
+                    break;
+                }
+
+                else
+                {
+                    goto ChooseAgain;
+                }
+            }
+
+            if (reloadBoard == true)
+            {
+                goto EntryPoint;
+            }
 
         }
 
